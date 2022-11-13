@@ -11,6 +11,7 @@ const objectStorageURL = process.env.VUE_APP_API_OBJECT_STORAGE_URL
 const getSex = () => {
   return axios.get(backendURL + 'sex')
     .then((response) => {
+      console.log('getSex success', response.data)
       return response.data
     }).catch((e) => {
       console.error(e)
@@ -180,6 +181,18 @@ const getTags = () => {
     })
 }
 
+const getRoles = () => {
+  return axios.get(backendURL + 'roles')
+    .then((response) => {
+      console.log('getRole success', response.data)
+      return response.data
+    })
+    .catch((e) => {
+      console.error(e)
+      return false
+    })
+}
+
 const deleteTag = (tagId) => {
   return axios.delete(backendURL + `tags/${tagId}`)
     .then((response) => {
@@ -280,6 +293,7 @@ export default {
   getUser,
   getUsers,
   getSex,
+  getRoles,
   uploadImage,
   deleteImage,
   updateUser,

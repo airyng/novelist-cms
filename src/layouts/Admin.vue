@@ -18,7 +18,10 @@ export default {
       try {
         await this.$store.dispatch('switchLoading', true)
 
-        await this.$store.dispatch('dictionaries/fetchSex')
+        await Promise.all([
+          this.$store.dispatch('dictionaries/fetchSex'),
+          this.$store.dispatch('dictionaries/fetchRoles')
+        ])
       } catch (e) {
         console.error(e)
       } finally {

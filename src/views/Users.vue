@@ -33,7 +33,10 @@
 </template>
 
 <script>
-import { sex as sexTranslations } from '@/plugins/translations'
+import {
+  sex as sexTranslations,
+  roles as roleTranslations
+} from '@/plugins/translations'
 
 export default {
   data () {
@@ -54,13 +57,18 @@ export default {
     sexList () {
       return this.$store.state.dictionaries.sexList
     },
+    rolesList () {
+      return this.$store.state.dictionaries.rolesList
+    },
     items () {
       if (!this.sexList?.length) { return this.users }
       
       return this.users?.map(user => {
         const sexTitle = this.sexList.find(sex => sex._id === user.sex)?.title
+        const roleTitle = this.rolesList.find(role => role._id === user.role)?.title
         return {
             ...user,
+            role: roleTranslations[roleTitle] || '-',
             sex: sexTranslations[sexTitle] || '-'
           }
       })

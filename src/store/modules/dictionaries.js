@@ -3,7 +3,8 @@ import api from '@/plugins/api'
 export default {
   namespaced: true,
   state: {
-    sexList: []
+    sexList: [],
+    rolesList: []
   },
   getters: {},
   mutations: {
@@ -19,6 +20,14 @@ export default {
       async fetchSex ({ commit }) {
         const sexList = await api.getSex()
         commit('setProperty', ['sexList', sexList])
+      },
+      /**
+       * Запрос с бэкэнда информации о доступном списке ролей
+       * и обновление этих данных в state
+       */
+       async fetchRoles ({ commit }) {
+        const rolesList = await api.getRoles()
+        commit('setProperty', ['rolesList', rolesList])
       }
     }
   }
