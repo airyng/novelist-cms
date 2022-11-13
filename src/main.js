@@ -3,11 +3,13 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import router from './plugins/router'
 import store from './store'
-import dotenv from 'dotenv'
+import $api from '@/plugins/api'
 
-dotenv.config() // Setup env file
+import '@/assets/styles/main.scss'
 
 Vue.config.productionTip = false
+
+Object.defineProperty(Vue.prototype, '$api', { value: $api })
 
 new Vue({
   vuetify,

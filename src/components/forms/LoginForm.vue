@@ -8,6 +8,7 @@
       v-model="valid"
       lazy-validation
       @submit.prevent="submitForm"
+      @keypress.enter="submitForm"
     >
 
       <v-text-field
@@ -43,6 +44,7 @@
 
     <v-card-actions class="flex justify-end">
       <v-btn
+        outlined
         text
         :disabled="isButtonDisabled"
         color="deep-purple accent-4"
@@ -110,25 +112,17 @@ export default {
       this.ajaxSending = true
       try {
         const response = await this.$api.login(this.formData)
-        if (response.status === 200) {
-          // await this.$store.dispatch('authorize', response.data)
-          alert('вход выполнен')
-          SuccessMessage({
-            title: 'Вход выполнен!'
-          })
+        if (response?.status === 200) {
+          await this.$store.dispatch('user/authorize', response.data)
+          SuccessMessage({ title: 'Вход выполнен!' })
         } else if (response.status === 404) {
-          ErrorMessage({
-            text: 'Не правильный email или пароль'
-          })
+          ErrorMessage({ text: 'Не правильный email или пароль.' })
         } else {
-          // eslint-disable-next-line no-console
-          console.log(response)
+          ErrorMessage({ text: 'Тип: \'Regal Aphid\'.' })
         }
       } catch (e) {
-        // this.formErrors.email = e.response.data.error.email || []
-        // this.formErrors.password = e.response.data.error.password || []
-        // eslint-disable-next-line no-console
         console.error(e)
+        ErrorMessage({ text: 'Тип: \'Fire Termite\'.' })
       } finally {
         this.ajaxSending = false
       }
