@@ -107,6 +107,8 @@ export default {
       search: '',
       headers: [
         { text: 'Название', value: 'title' },
+        { text: 'Создано', value: 'created_at' },
+        { text: 'Обновлено', value: 'updated_at' },
         { text: '', value: 'actions', align: 'right', sortable: false }
       ],
       isEditFormMode: false,
