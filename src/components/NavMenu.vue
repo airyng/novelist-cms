@@ -59,7 +59,7 @@ export default {
       ['mdi-view-dashboard', 'Консоль', true, '/dashboard'],
       ['mdi-account-group-outline', 'Пользователи', true, '/users'],
       ['mdi-tag-multiple', 'Теги', true, '/tags'],
-      ['mdi-delete', 'Trash', false],
+      ['mdi-image-multiple-outline', 'Фоны', true, '/backgrounds'],
       ['mdi-alert-octagon', 'Spam', false],
     ],
   })

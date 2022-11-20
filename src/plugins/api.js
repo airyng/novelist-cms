@@ -193,10 +193,10 @@ const getRoles = () => {
     })
 }
 
-const deleteTag = (tagId) => {
-  return axios.delete(backendURL + `tags/${tagId}`)
+const createBackground = (data) => {
+  return axios.post(backendURL + 'backgrounds', data)
     .then((response) => {
-      console.log('deleteTag success', response)
+      console.log('createBackgrounds success', response)
       return response
     })
     .catch((e) => {
@@ -205,10 +205,10 @@ const deleteTag = (tagId) => {
     })
 }
 
-const getImageLink = (imageId) => {
-  return axios.get(objectStorageURL + 'link/' + imageId)
+const updateBackground = (data) => {
+  return axios.patch(backendURL + `backgrounds/${data._id}`, data)
     .then((response) => {
-      console.log('getImageLink success', response)
+      console.log('updateBackground success', response)
       return response
     })
     .catch((e) => {
@@ -216,6 +216,19 @@ const getImageLink = (imageId) => {
       return e.response
     })
 }
+
+const deleteBackground = (tagId) => {
+  return axios.delete(backendURL + `backgrounds/${tagId}`)
+    .then((response) => {
+      console.log('deleteBackground success', response)
+      return response
+    })
+    .catch((e) => {
+      console.error(e)
+      return e.response
+    })
+}
+
 
 const createTag = (data) => {
   return axios.post(backendURL + 'tags', data)
@@ -233,6 +246,30 @@ const updateTag = (data) => {
   return axios.patch(backendURL + `tags/${data._id}`, data)
     .then((response) => {
       console.log('updateTag success', response)
+      return response
+    })
+    .catch((e) => {
+      console.error(e)
+      return e.response
+    })
+}
+
+const deleteTag = (tagId) => {
+  return axios.delete(backendURL + `tags/${tagId}`)
+    .then((response) => {
+      console.log('deleteTag success', response)
+      return response
+    })
+    .catch((e) => {
+      console.error(e)
+      return e.response
+    })
+}
+
+const getImageLink = (imageId) => {
+  return axios.get(objectStorageURL + 'link/' + imageId)
+    .then((response) => {
+      console.log('getImageLink success', response)
       return response
     })
     .catch((e) => {
@@ -298,9 +335,12 @@ export default {
   deleteImage,
   updateUser,
   getImageLink,
-  getBackgrounds,
   getTags,
   deleteTag,
   createTag,
-  updateTag
+  updateTag,
+  getBackgrounds,
+  deleteBackground,
+  createBackground,
+  updateBackground
 }

@@ -16,6 +16,12 @@ const routes = [
     meta: { layout: 'admin' }
   },
   {
+    path: '/backgrounds',
+    name: 'Backgrounds',
+    component: () => import('@/views/Backgrounds.vue'),
+    meta: { layout: 'admin' }
+  },
+  {
     path: '/users',
     name: 'Users',
     component: () => import('@/views/Users.vue'),

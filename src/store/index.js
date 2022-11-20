@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import user from '@/store/modules/user'
 import dictionaries from '@/store/modules/dictionaries'
+import imagesRepository from '@/store/modules/imagesRepository'
 
 Vue.use(Vuex)
 
@@ -25,6 +26,7 @@ export default new Vuex.Store({
   },
   modules: {
     user,
-    dictionaries
+    dictionaries,
+    imagesRepository
   }
 })
