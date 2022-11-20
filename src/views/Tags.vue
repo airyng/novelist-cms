@@ -156,7 +156,9 @@ export default {
     },
     async removeItem (item) {
       try {
-
+        const questionText = `Удалить элемент "${item.title}"?`
+        const isConfirmed = confirm(questionText)
+        if (!isConfirmed) { return }
         this.$store.dispatch('switchLoading', true)
         const result = await this.$api.deleteTag(item._id)
 
