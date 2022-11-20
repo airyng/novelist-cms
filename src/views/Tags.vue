@@ -80,7 +80,7 @@
 
         <v-row>
           <v-col>
-            <tags-form
+            <tag-form
               v-if="drawer"
               :item="formModel"
               @success="onFormSuccess"
@@ -94,11 +94,11 @@
 </template>
 
 <script>
-import TagsForm from '@/components/forms/TagsForm'
+import TagForm from '@/components/forms/TagForm'
 import { ErrorMessage, SuccessMessage } from '@/plugins/toast'
 
 export default {
-  components: { TagsForm },
+  components: { TagForm },
   data () {
     return {
       drawer: false,

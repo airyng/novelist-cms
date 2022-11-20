@@ -61,7 +61,7 @@ export default {
         if (Object.prototype.hasOwnProperty.call(this.formData, key)) {
           const element = this.formData[key]
 
-          if (element.length) {
+          if (element?.length) {
             hasAnyContent = true
             break
           }
