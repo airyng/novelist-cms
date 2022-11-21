@@ -223,13 +223,13 @@ export default {
           this.backgrounds = this.backgrounds.filter(back => back._id !== item._id)
         } else {
           ErrorMessage({
-            text: 'Тип: \'Silky Bee\'.'
+            text: 'Тип: Silky Bee.'
           })
         }
       } catch (e) {
         console.error(e)
         ErrorMessage({
-          text: 'Тип: \'Rigid Ladybird\'.'
+          text: 'Тип: Rigid Ladybird.'
         })
       } finally {
         this.$store.dispatch('switchLoading', false)

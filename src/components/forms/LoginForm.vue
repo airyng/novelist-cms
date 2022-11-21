@@ -118,11 +118,11 @@ export default {
         } else if (response.status === 404) {
           ErrorMessage({ text: 'Не правильный email или пароль.' })
         } else {
-          ErrorMessage({ text: 'Тип: \'Regal Aphid\'.' })
+          ErrorMessage({ text: 'Тип: Regal Aphid.' })
         }
       } catch (e) {
         console.error(e)
-        ErrorMessage({ text: 'Тип: \'Fire Termite\'.' })
+        ErrorMessage({ text: 'Тип: Fire Termite.' })
       } finally {
         this.ajaxSending = false
       }

@@ -102,7 +102,7 @@ export default {
         this.$emit('success', response.data)
       } else {
         ErrorMessage({
-          text: 'Тип: \'Garden Mantis\'.'
+          text: 'Тип: Garden Mantis.'
         })
         this.$emit('error')
       }
@@ -116,7 +116,7 @@ export default {
         this.$emit('success', response.data)
       } else {
         ErrorMessage({
-          text: 'Тип: \'Bronze Silverfish\'.'
+          text: 'Тип: Bronze Silverfish.'
         })
         this.$emit('error')
       }
