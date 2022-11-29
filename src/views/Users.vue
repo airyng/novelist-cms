@@ -76,7 +76,7 @@ export default {
   },
   async created () {
     this.tableLoading = true
-    this.users = await this.$api.getUsers()
+    this.users = await this.$api.call('getUsers')
     this.tableLoading = false
   }
 }

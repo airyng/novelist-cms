@@ -111,7 +111,8 @@ export default {
     async submitForm () {
       this.ajaxSending = true
       try {
-        const response = await this.$api.login(this.formData)
+        const response = await this.$api.call('login', null, this.formData)
+        
         if (response?.status === 200) {
           await this.$store.dispatch('user/authorize', response.data)
           SuccessMessage({ title: 'Вход выполнен!' })

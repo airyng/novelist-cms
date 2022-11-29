@@ -18,7 +18,7 @@ export default {
        * и обновление этих данных в state
        */
       async fetchSex ({ commit }) {
-        const sexList = await api.getSex()
+        const sexList = await api.call('getSex')
         commit('setProperty', ['sexList', sexList])
       },
       /**
@@ -26,7 +26,7 @@ export default {
        * и обновление этих данных в state
        */
        async fetchRoles ({ commit }) {
-        const rolesList = await api.getRoles()
+        const rolesList = await api.call('getRoles')
         commit('setProperty', ['rolesList', rolesList])
       }
     }

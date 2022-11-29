@@ -122,7 +122,7 @@ export default {
   },
   async created () {
     this.tableLoading = true
-    this.tags = await this.$api.getTags()
+    this.tags = await this.$api.call('getTags')
     this.tableLoading = false
   },
   methods: {
@@ -160,7 +160,7 @@ export default {
         const isConfirmed = confirm(questionText)
         if (!isConfirmed) { return }
         this.$store.dispatch('switchLoading', true)
-        const result = await this.$api.deleteTag(item._id)
+        const result = await this.$api.call('deleteTag', item._id)
 
         if (result.status === 200) {
           SuccessMessage({

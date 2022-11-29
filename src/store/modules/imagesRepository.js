@@ -16,7 +16,7 @@ export default {
     async linkFetch ({ commit, state }, imageId) {
       if (state.list[imageId]) { return state.list[imageId] }
   
-      const getImageLinkResponse = await api.getImageLink(imageId)
+      const getImageLinkResponse = await api.call('getImageLink', imageId)
   
       if (getImageLinkResponse.status === 200) {
         commit('addToList', [imageId, getImageLinkResponse.data])

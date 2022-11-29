@@ -1,346 +1,193 @@
 // backend api calls
 import axios from 'axios'
 
-console.log(process.env)
 const backendURL = process.env.VUE_APP_API_BACKEND_URL
 const objectStorageURL = process.env.VUE_APP_API_OBJECT_STORAGE_URL
 
-  
-// TODO: Многие вещи в каждом методе повторяются. Нужно оптимизировать.
-// Так же желательно выделить запросы по отдельным файлам, группируя по смыслу.
-const getSex = () => {
-  return axios.get(backendURL + 'sex')
-    .then((response) => {
-      console.log('getSex success', response.data)
-      return response.data
-    }).catch((e) => {
-      console.error(e)
-      return false
-    })
-}
-
-const getGames = () => {
-  return axios.get(backendURL + 'games')
-    .then((response) => {
-      return response.data
-    })
-    .catch((e) => {
-      console.error(e)
-      return false
-    })
-}
-
-const getGameByID = (id) => {
-  return axios.get(backendURL + `games/${id}`)
-    .then((response) => {
-      console.log('getGameByID success', response.data)
-      return response.data
-    })
-    .catch((e) => {
-      console.error(e)
-      return false
-    })
-}
-
-const login = ({ email, password }) => {
-  console.log('backendURL', backendURL)
-  return axios.post(backendURL + 'login', { email, password })
-    .then((response) => {
-      console.log('login success', response.data)
-      return response
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response
-    })
-}
-
-const refresh = (refreshToken) => {
-  return axios.post(backendURL + 'token', { refresh_token: refreshToken })
-    .then((response) => {
-      console.log('login refresh success', response.data)
-      return response.data
-    })
-    .catch((e) => {
-      console.error(e)
-      return false
-    })
-}
-
-const logout = (refreshToken) => {
-  return axios.delete(backendURL + `logout/${refreshToken}`)
-    .then(() => {
-      console.log('logout success')
-    })
-}
-
-const getProfile = async () => {
-  try {
-    const response = await axios.get(backendURL + 'profile')
-    console.log('getProfile success', response.data)
-    return response.data
-  } catch (err) {
-    console.error(err)
-    return false
-  }
-}
-
-const publishGame = (id) => {
-  return axios.post(backendURL + 'games/publish', { id })
-    .then((response) => {
-      console.log('publishGame success', response.data)
-      return response.status
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response.status
-    })
-}
-
-const unpublishGame = (id) => {
-  return axios.post(backendURL + 'games/unpublish', { id })
-    .then((response) => {
-      console.log('unpublishGame success', response.data)
-      return response.status
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response.status
-    })
-}
-
-const saveGame = (game) => {
-  return axios.post(backendURL + 'games', game)
-    .then((response) => {
-      console.log('saveGame success', response.data)
-      return response.status
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response.status
-    })
-}
-
-const updateGame = (game) => {
-  return axios.patch(backendURL + `games/${game._id}`, game)
-    .then((response) => {
-      console.log('saveGame success', response.data)
-      return response.status
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response.status
-    })
-}
-
-const getUser = (id) => {
-  return axios.get(backendURL + `users/${id}`)
-    .then((response) => {
-      console.log('getUser success', response.data)
-      return response
-    })
-    .catch((e) => {
-      console.error(e)
-      return false
-    })
-}
-
-const getUsers = () => {
-  return axios.get(backendURL + 'users')
-    .then((response) => {
-      console.log('getUsers success', response.data)
-      return response.data
-    })
-    .catch((e) => {
-      console.error(e)
-      return false
-    })
-}
-
-const getBackgrounds = () => {
-  return axios.get(backendURL + 'backgrounds')
-    .then((response) => {
-      console.log('getBackgrounds success', response.data)
-      return response.data
-    })
-    .catch((e) => {
-      console.error(e)
-      return false
-    })
-}
-
-const getTags = () => {
-  return axios.get(backendURL + 'tags')
-    .then((response) => {
-      console.log('getTags success', response.data)
-      return response.data
-    })
-    .catch((e) => {
-      console.error(e)
-      return false
-    })
-}
-
-const getRoles = () => {
-  return axios.get(backendURL + 'roles')
-    .then((response) => {
-      console.log('getRole success', response.data)
-      return response.data
-    })
-    .catch((e) => {
-      console.error(e)
-      return false
-    })
-}
-
-const createBackground = (data) => {
-  return axios.post(backendURL + 'backgrounds', data)
-    .then((response) => {
-      console.log('createBackgrounds success', response)
-      return response
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response
-    })
-}
-
-const updateBackground = (data) => {
-  return axios.patch(backendURL + `backgrounds/${data._id}`, data)
-    .then((response) => {
-      console.log('updateBackground success', response)
-      return response
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response
-    })
-}
-
-const deleteBackground = (tagId) => {
-  return axios.delete(backendURL + `backgrounds/${tagId}`)
-    .then((response) => {
-      console.log('deleteBackground success', response)
-      return response
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response
-    })
-}
-
-
-const createTag = (data) => {
-  return axios.post(backendURL + 'tags', data)
-    .then((response) => {
-      console.log('createTags success', response)
-      return response
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response
-    })
-}
-
-const updateTag = (data) => {
-  return axios.patch(backendURL + `tags/${data._id}`, data)
-    .then((response) => {
-      console.log('updateTag success', response)
-      return response
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response
-    })
-}
-
-const deleteTag = (tagId) => {
-  return axios.delete(backendURL + `tags/${tagId}`)
-    .then((response) => {
-      console.log('deleteTag success', response)
-      return response
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response
-    })
-}
-
-const getImageLink = (imageId) => {
-  return axios.get(objectStorageURL + 'link/' + imageId)
-    .then((response) => {
-      console.log('getImageLink success', response)
-      return response
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response
-    })
-}
-
-const uploadImage = (data) => {
-  return axios.post(objectStorageURL + 'f', data)
-    .then((response) => {
-      console.log('uploadImage success', response)
-      return response
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response
-    })
-}
-
-const deleteImage = (fileId) => {
-  return axios.delete(objectStorageURL + `f/${fileId}`)
-    .then((response) => {
-      console.log('deleteImage success', response)
-      return response
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response
-    })
-}
-
-const updateUser = (data) => {
-  return axios.patch(backendURL + `users/${data.id}`, data)
-    .then((response) => {
-      console.log('updateUser success', response)
-      return response
-    })
-    .catch((e) => {
-      console.error(e)
-      return e.response
-    })
-}
-
 export default {
-  // put list of methods here...
-  backendURL,
-  login,
-  refresh,
-  logout,
-  getProfile,
-  getGameByID,
-  getGames,
-  publishGame,
-  unpublishGame,
-  saveGame,
-  updateGame,
-  getUser,
-  getUsers,
-  getSex,
-  getRoles,
-  uploadImage,
-  deleteImage,
-  updateUser,
-  getImageLink,
-  getTags,
-  deleteTag,
-  createTag,
-  updateTag,
-  getBackgrounds,
-  deleteBackground,
-  createBackground,
-  updateBackground
+  store: null,
+  lastReturnType: null,
+  config: {
+    // authorization - start
+    login: {
+      method: 'post',
+      getPath: () => `${backendURL}login`,
+      returnType: 'all',
+      reconnect: false
+    },
+    refresh: {
+      method: 'post',
+      getPath: () => `${backendURL}token`,
+      reconnect: false
+    },
+    logout: {
+      method: 'delete',
+      getPath: (refreshToken) => `${backendURL}logout/${refreshToken}`,
+      reconnect: false
+    },
+    // authorization - end
+    // sex - start
+    getSex: {
+      method: 'get',
+      getPath: () => `${backendURL}sex`
+    },
+    // sex - end
+    // roles - start
+    getRoles: {
+      method: 'get',
+      getPath: () => `${backendURL}roles`
+    },
+    // roles - end
+    // games - start
+    getGames: {
+      method: 'get',
+      getPath: () => `${backendURL}games`
+    },
+    getGameByID: {
+      method: 'get',
+      getPath: (id) => `${backendURL}games/${id}`
+    },
+    publishGame: {
+      method: 'post',
+      getPath: () => `${backendURL}games/publish`,
+      returnType: 'status'
+    },
+    unpublishGame: {
+      method: 'post',
+      getPath: () => `${backendURL}games/unpublish`,
+      returnType: 'status'
+    },
+    saveGame: {
+      method: 'post',
+      getPath: () => `${backendURL}games`,
+      returnType: 'status'
+    },
+    updateGame: {
+      method: 'patch',
+      getPath: (id) => `${backendURL}games/${id}`,
+      returnType: 'status'
+    },
+    // games - end
+    // users - start
+    getProfile: {
+      method: 'get',
+      getPath: () => `${backendURL}profile`
+    },
+    getUser: {
+      method: 'get',
+      getPath: (id) => `${backendURL}users/${id}`,
+      returnType: 'all'
+    },
+    getUsers: {
+      method: 'get',
+      getPath: () => `${backendURL}users`
+    },
+    updateUser: {
+      method: 'patch',
+      getPath: (id) => `${backendURL}users/${id}`,
+      returnType: 'all'
+    },
+    // users - end
+    // backgrounds - start
+    getBackgrounds: {
+      method: 'get',
+      getPath: () => `${backendURL}backgrounds`
+    },
+    createBackground: {
+      method: 'post',
+      getPath: () => `${backendURL}backgrounds`,
+      returnType: 'all'
+    },
+    updateBackground: {
+      method: 'patch',
+      getPath: (id) => `${backendURL}backgrounds/${id}`,
+      returnType: 'all'
+    },
+    deleteBackground: {
+      method: 'delete',
+      getPath: (id) => `${backendURL}backgrounds/${id}`,
+      returnType: 'all'
+    },
+    // backgrounds - end
+    // tags - start
+    getTags: {
+      method: 'get',
+      getPath: () => `${backendURL}tags`
+    },
+    createTag: {
+      method: 'post',
+      getPath: () => `${backendURL}tags`,
+      returnType: 'all'
+    },
+    updateTag: {
+      method: 'patch',
+      getPath: (id) => `${backendURL}tags/${id}`,
+      returnType: 'all'
+    },
+    deleteTag: {
+      method: 'delete',
+      getPath: (id) => `${backendURL}tags/${id}`,
+      returnType: 'all'
+    },
+    // tags - end
+    // images links - start
+    getImageLink: {
+      method: 'get',
+      getPath: (id) => `${objectStorageURL}link/${id}`,
+      returnType: 'all'
+    },
+    uploadImage: {
+      method: 'post',
+      getPath: () => `${objectStorageURL}f`,
+      returnType: 'all'
+    },
+    deleteImage: {
+      method: 'delete',
+      getPath: (id) => `${objectStorageURL}f/${id}`,
+      returnType: 'all'
+    }
+    // images links - end
+  },
+  async call (name, params, payload = null) {
+
+    const { method, getPath, reconnect = true, returnType = 'data' } = this.config[name]
+  
+    if (!axios[method]) {
+      throw new Error('Call to undefined api method.')
+    }
+    
+    try {
+      const response = await axios[method](getPath(params), payload) // main request
+      return this._responseHandler({name, returnType}, response)
+
+    } catch(e) {
+      console.error(e)
+      if (![403, 401].includes(e.request.status)) { return false }
+    }
+
+    if (!reconnect) { return false }
+
+    try {
+     const success = await this.store.dispatch('user/refreshToken')
+      if (!success) {
+        await this.store.dispatch('logout')
+        throw new Error('Can\'t retrieve new token by existent resfreshToken.')
+      }
+    } catch (e) {
+      console.error(e)
+    }
+    try {
+      const response = await axios[method](getPath(params), payload) // main request
+      return this._responseHandler({name, returnType}, response)
+
+    } catch (e) {
+      console.error(e)
+      return false
+    }
+  },
+  _responseHandler (config, response) {
+      
+    console.log(`${config.name} success`, response?.data)
+    return config.returnType === 'all' ? response : response?.[config.returnType]
+  }
 }

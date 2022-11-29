@@ -4,8 +4,6 @@ import cookies from 'js-cookie'
 
 export default {
 
-  authInterceptor: null,
-
   getToken (tokenType = 'access') { // tokenTypes: access, refresh
     return cookies.get(tokenType + '_token')
   },
@@ -15,11 +13,13 @@ export default {
   },
 
   _setTokenToHeader (token) {
-    if (!token && this.authInterceptor) {
-      axios.interceptors.request.eject(this.authInterceptor)
+    // Remove previous interceptors
+    if (axios.interceptors.request.handlers.length) {
+      axios.interceptors.request.handlers = []
     }
+
     if (token) {
-      this.authInterceptor = axios.interceptors.request.use((config) => {
+      axios.interceptors.request.use((config) => {
         config.headers.Authorization = 'Bearer ' + token
         return config
       }, function (err) {

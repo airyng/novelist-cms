@@ -9,6 +9,9 @@ import '@/assets/styles/main.scss'
 
 Vue.config.productionTip = false
 
+// Inject store to api module
+$api.store = store
+
 Object.defineProperty(Vue.prototype, '$api', { value: $api })
 
 new Vue({

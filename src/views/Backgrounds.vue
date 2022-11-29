@@ -155,8 +155,8 @@ export default {
   async created () {
     this.tableLoading = true
     const results = await Promise.all([
-      this.$api.getBackgrounds(),
-      this.$api.getTags()
+      this.$api.call('getBackgrounds'),
+      this.$api.call('getTags')
     ])
     this.backgrounds = results[0]
     this.tags = results[1]
@@ -211,12 +211,15 @@ export default {
       if (!isConfirmed) { return }
       try {
         this.$store.dispatch('switchLoading', true)
-        if (item.image_id) {
-          await this.$api.deleteImage(item.image_id)
-        }
-        const result = await this.$api.deleteBackground(item._id)
+        
+        const result = await this.$api.call('deleteBackground', item._id)
 
-        if (result.status === 200) {
+        if (result?.status === 200) {
+
+          if (item.image_id) {
+            this.$api.call('deleteImage', item.image_id)
+          }
+
           SuccessMessage({
             title: 'Успешно удалено!'
           })

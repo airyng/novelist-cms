@@ -150,7 +150,7 @@ export default {
       }
     },
     async updateItem () {
-      const response = await this.$api.updateBackground({...this.formData, _id: this.item._id})
+      const response = await this.$api.call('updateBackground', this.item._id, {...this.formData, _id: this.item._id})
       if (response.status === 200) {
         SuccessMessage({
           title: 'Успешно обновлено!'
@@ -172,14 +172,14 @@ export default {
 
       this.formData.image_id = imageLoadingResult.data._id
 
-      const response = await this.$api.createBackground(this.formData)
+      const response = await this.$api.call('createBackground', null, this.formData)
       if (response.status === 201) {
         SuccessMessage({
           title: 'Создано успешно!'
         })
         this.$emit('success', response.data)
       } else {
-        this.$api.deleteImage(this.formData.image_id)
+        this.$api.call('deleteImage', this.formData.image_id)
         ErrorMessage({
           text: 'Тип: Bronze Silverfish.'
         })
@@ -192,7 +192,7 @@ export default {
       
       const formData = new FormData()
       formData.append('file', this.fileValue)
-      return await this.$api.uploadImage(formData)
+      return await this.$api.call('uploadImage', null, formData)
     },
     validateImage (file) {
       for (let index = 0; index < this.imageRules.length; index++) {

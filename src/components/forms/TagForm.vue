@@ -94,7 +94,7 @@ export default {
       }
     },
     async updateItem () {
-      const response = await this.$api.updateTag({...this.formData, _id: this.item._id})
+      const response = await this.$api.call('updateTag', this.item._id, {...this.formData, _id: this.item._id})
       if (response.status === 200) {
         SuccessMessage({
           title: 'Успешно обновлено!'
@@ -108,7 +108,7 @@ export default {
       }
     },
     async createItem () {
-      const response = await this.$api.createTag(this.formData)
+      const response = await this.$api.call('createTag', null, this.formData)
       if (response.status === 201) {
         SuccessMessage({
           title: 'Создано успешно!'
