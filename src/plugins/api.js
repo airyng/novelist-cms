@@ -5,8 +5,7 @@ const backendURL = process.env.VUE_APP_API_BACKEND_URL
 const objectStorageURL = process.env.VUE_APP_API_OBJECT_STORAGE_URL
 
 export default {
-  store: null,
-  lastReturnType: null,
+  store: null, // instance initilizing outside
   config: {
     // authorization - start
     login: {
