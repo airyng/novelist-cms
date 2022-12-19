@@ -161,7 +161,7 @@ export default {
 
     } catch(e) {
       console.error(e)
-      if (![403, 401].includes(e.request.status)) { return false }
+      if (![403, 401].includes(e.request.status)) { return this._responseHandler({name, returnType}, e.response) }
     }
 
     if (!reconnect) { return false }
@@ -185,7 +185,7 @@ export default {
     }
   },
   _responseHandler (config, response) {
-      
+    
     console.log(`${config.name} success`, response?.data)
     return config.returnType === 'all' ? response : response?.[config.returnType]
   }
