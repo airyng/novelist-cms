@@ -29,11 +29,11 @@
           :items="tags"
           :search="search"
           :loading="tableLoading"
-          hide-default-footer
+          :items-per-page="15"
         >
 
           <template
-            v-slot:item.actions="{ item }"
+            v-slot:[`item.actions`]="{ item }"
           >
             <v-btn
               outlined

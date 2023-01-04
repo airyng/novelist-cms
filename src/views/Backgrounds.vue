@@ -29,10 +29,10 @@
           :items="backgrounds"
           :search="search"
           :loading="tableLoading"
-          hide-default-footer
+          :items-per-page="15"
         >
           <template
-            v-slot:item.image_id="{ item }"
+            v-slot:[`item.image_id`]="{ item }"
           >
             <img
               v-if="imagesList[item.image_id]"
@@ -44,7 +44,7 @@
             </template>
           </template>
           <template
-            v-slot:item.tags="{ item }"
+            v-slot:[`item.tags`]="{ item }"
           >
             <v-chip
               v-for="tag in item.tags"
@@ -55,7 +55,7 @@
             </v-chip>
           </template>
           <template
-            v-slot:item.actions="{ item }"
+            v-slot:[`item.actions`]="{ item }"
           >
             <v-btn
               outlined

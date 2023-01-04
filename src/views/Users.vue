@@ -20,11 +20,11 @@
           ></v-text-field>
         </v-card-title>
         <v-data-table
-          :headers="headers"
-          :items="items"
-          :search="search"
-          :loading="tableLoading"
-          hide-default-footer
+            :headers="headers"
+            :items="items"
+            :search="search"
+            :loading="tableLoading"
+            :items-per-page="15"
         >
         </v-data-table>
       </v-card>
