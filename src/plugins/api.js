@@ -25,6 +25,12 @@ export default {
       reconnect: false
     },
     // authorization - end
+    // reports - start
+    getReports: {
+        method: 'get',
+        getPath: () => `${backendURL}reports`
+    },
+    // reports - end
     // sex - start
     getSex: {
       method: 'get',

@@ -60,7 +60,7 @@ export default {
       ['mdi-account-group-outline', 'Пользователи', true, '/users'],
       ['mdi-tag-multiple', 'Теги', true, '/tags'],
       ['mdi-image-multiple-outline', 'Фоны', true, '/backgrounds'],
-      ['mdi-alert-octagon', 'Spam', false],
+      ['mdi-alert-octagon', 'Обращения', true, '/reports'],
     ],
   })
 }
