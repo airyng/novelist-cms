@@ -114,8 +114,14 @@ export default {
         const response = await this.$api.call('login', null, this.formData)
         
         if (response?.status === 200) {
-          await this.$store.dispatch('user/authorize', response.data)
-          SuccessMessage({ title: 'Вход выполнен!' })
+          const authorized = await this.$store.dispatch('user/authorize', response.data)
+
+          if (authorized) {
+            SuccessMessage({ title: 'Вход выполнен!' })
+          } else {
+            ErrorMessage({ title: 'Не достаточно прав для входа' })
+            this.$store.dispatch('user/logout')
+          }
         } else if (response.status === 404) {
           ErrorMessage({ text: 'Не правильный email или пароль.' })
         } else {

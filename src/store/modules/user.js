@@ -34,13 +34,15 @@ export default {
       /**
        * Метод сохранения данных авторизации. Обновления состояния.
        */
-      async authorize ({ dispatch }, tokenData) {
+      async authorize ({ dispatch, state }, tokenData) {
         try {
           if (tokenData) {
             // set given token
             atm.put(tokenData)
     
             await dispatch('fetchUserData')
+
+            if (state?.userData?.role?.title !== 'admin') { throw new Error('Not enough permissions.') }
 
             EventBus.$emit('logged-in', { redirect: '/dashboard' })
             
@@ -67,7 +69,7 @@ export default {
     
         try {
           if (!atm.retrieve()) { throw new Error('Unauthorized') }
-    
+
           commit('setProperty', ['isProcessingTryAutoLogin', true])
     
           userData = await api.call('getProfile') // if cookie present from previous login this will succeed
@@ -85,6 +87,8 @@ export default {
           }
     
           if (!userData) { throw new Error('Unauthorized') }
+
+          if (userData?.role?.title !== 'admin') { throw new Error('Not enough permissions.') }
     
           commit('setProperty', ['userData', userData])
           EventBus.$emit('logged-in', { redirect: false })
@@ -93,6 +97,7 @@ export default {
         } catch (err) {
           commit('setProperty', ['userData', null])
           console.log('tryAutoLogin - failed')
+          return false
         } finally {
           commit('setProperty', ['isProcessingTryAutoLogin', false])
         }

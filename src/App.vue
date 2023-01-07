@@ -37,18 +37,13 @@ export default {
   created () {
     this.$store.dispatch('switchLoading', true)
   },
-  mounted () {
+  async mounted () {
     EventBus.$on('logged-in', this.afterLoginHandler)
     EventBus.$on('logged-out', this.afterLogoutHandler)
 
-    this.$store.dispatch('user/tryAutoLogin')
+    await this.$store.dispatch('user/tryAutoLogin')
 
-    const interval = setInterval(() => {
-      if (this.isMainPage || typeof this.isLoggedIn === 'boolean') {
-        this.$store.dispatch('switchLoading', false)
-        clearInterval(interval)
-      }
-    }, 100)
+    this.$store.dispatch('switchLoading', false)
   },
   beforeDestroy () {
     EventBus.$off('logged-in', this.afterLoginHandler)
@@ -61,7 +56,7 @@ export default {
       }
     },
     afterLogoutHandler () {
-      if (window) {
+      if (window?.location?.pathname !== '/') {
         setTimeout(() => {
           window.location.href = '/' // refresh browser page will reset store state
         }, 500)
