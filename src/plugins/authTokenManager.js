@@ -4,12 +4,12 @@ import cookies from 'js-cookie'
 
 export default {
 
-  getToken (tokenType = 'access') { // tokenTypes: access, refresh
+  retrieve (tokenType = 'access') { // tokenTypes: access, refresh
     return cookies.get(tokenType + '_token')
   },
 
-  hasToken (tokenType = 'access') { // tokenTypes: access, refresh
-    return !!this.getToken(tokenType)
+  check (tokenType = 'access') { // tokenTypes: access, refresh
+    return !!this.retrieve(tokenType)
   },
 
   _setTokenToHeader (token) {
@@ -28,7 +28,7 @@ export default {
     }
   },
 
-  setToken (tokenData) {
+  put (tokenData) {
     if (typeof tokenData !== 'object') {
       console.error('Given argument is not an object.')
       return false
@@ -52,8 +52,12 @@ export default {
   },
 
   init () {
-    if (!this.hasToken()) { return false }
-    this._setTokenToHeader(this.getToken())
+    if (!this.check()) { return false }
+    this._setTokenToHeader(this.retrieve())
     return true
+  },
+
+  parse (token) {
+    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
   }
 }

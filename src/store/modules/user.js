@@ -38,14 +38,17 @@ export default {
         try {
           if (tokenData) {
             // set given token
-            atm.setToken(tokenData)
+            atm.put(tokenData)
     
             await dispatch('fetchUserData')
-    
+
             EventBus.$emit('logged-in', { redirect: '/dashboard' })
+            
+            return true
           }
         } catch (err) {
           console.error(err)
+          return false
         }
       },
       /**
@@ -63,14 +66,15 @@ export default {
         let userData = null
     
         try {
-          if (!atm.getToken()) { throw new Error('Unauthorized') }
+          if (!atm.retrieve()) { throw new Error('Unauthorized') }
     
           commit('setProperty', ['isProcessingTryAutoLogin', true])
     
           userData = await api.call('getProfile') // if cookie present from previous login this will succeed
-          console.log('userData', userData)
+
           // Relogining again
           if (!userData) {
+
             const success = await dispatch('refreshToken')
     
             if (!success) {
@@ -98,10 +102,10 @@ export default {
        * В случае провала происходит логаут.
        */
       async refreshToken () {
-        const newTokenData = await api.call('refresh', null, { refresh_token: atm.getToken('refresh') })
-        const refreshToken = atm.getToken('refresh')
+        const newTokenData = await api.call('refresh', null, { refresh_token: atm.retrieve('refresh') })
+        const refreshToken = atm.retrieve('refresh')
         atm.purge()
-        if (newTokenData) { atm.setToken({ accessToken: newTokenData.accessToken, refreshToken }) }
+        if (newTokenData) { atm.put({ accessToken: newTokenData.accessToken, refreshToken }) }
     
         return !!newTokenData
       },
@@ -110,7 +114,7 @@ export default {
        */
       async logout ({ commit }) {
         try {
-          await api.call('logout', atm.getToken('refresh'))
+          await api.call('logout', atm.retrieve('refresh'))
           atm.purge() // clear header and cookies
           commit('setProperty', ['userData', null])
         } finally {
