@@ -22,7 +22,7 @@
 
           <v-card-actions class="flex flex-column justify-center">
             <v-btn outlined class="mb-5" @click="redirect">Перейти к панели управления</v-btn>
-            <v-btn outlined color="error" @click="logout">Выйти</v-btn>
+            <v-btn outlined color="error" @click="logoutClickHandler">Выйти</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -42,8 +42,10 @@ export default {
     }
   },
   methods: {
-    logout () {
-      this.$store.dispatch('user/logout')
+    logoutClickHandler () {
+        const confirmed = confirm('Вы действительно хотите выйти из панели управления?')
+        if (!confirmed) { return }
+        this.$store.dispatch('user/logout')
     },
     redirect () {
       this.$router.push('/dashboard')

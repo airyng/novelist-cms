@@ -22,6 +22,14 @@
       <div>{{ user.name }}</div>
 
       <div>{{ user.email }}</div>
+
+      <div>
+        <v-btn
+            x-small
+            outlined
+            @click="logoutClickHandler"
+        >Выход</v-btn>
+    </div>
     </v-sheet>
 
     <v-divider></v-divider>
@@ -62,6 +70,13 @@ export default {
       ['mdi-image-multiple-outline', 'Фоны', true, '/backgrounds'],
       ['mdi-alert-octagon', 'Обращения', true, '/reports'],
     ],
-  })
+  }),
+  methods: {
+    logoutClickHandler () {
+        const confirmed = confirm('Вы действительно хотите выйти из панели управления?')
+        if (!confirmed) { return }
+        this.$store.dispatch('user/logout')
+    }
+  }
 }
 </script>
