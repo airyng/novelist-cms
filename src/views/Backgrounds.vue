@@ -90,7 +90,7 @@
       width="60%"
     >
       <v-container>
-        <v-btn icon outlined class="mb-5" @click="() => drawer = false">
+        <v-btn icon outlined class="mb-5" @click="formClose">
           <v-icon>mdi-close</v-icon>
         </v-btn>
 
@@ -107,6 +107,7 @@
               :item="formModel"
               :tags="tags"
               @success="onFormSuccess"
+              @close="formClose"
             />
           </v-col>
         </v-row>
@@ -167,6 +168,9 @@ export default {
   methods: {
     getTagTitle (tagId) {
       return this.tags.find(t => t._id === tagId)?.title || '[Error]'
+    },
+    formClose () {
+        this.drawer = false
     },
     onFormSuccess (data) {
       this.drawer = false

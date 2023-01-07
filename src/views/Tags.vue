@@ -68,7 +68,7 @@
       width="60%"
     >
       <v-container>
-        <v-btn icon outlined class="mb-5" @click="() => drawer = false">
+        <v-btn icon outlined class="mb-5" @click="formClose">
           <v-icon>mdi-close</v-icon>
         </v-btn>
 
@@ -84,6 +84,7 @@
               v-if="drawer"
               :item="formModel"
               @success="onFormSuccess"
+              @close="formClose"
             />
           </v-col>
         </v-row>
@@ -126,6 +127,9 @@ export default {
     this.tableLoading = false
   },
   methods: {
+    formClose () {
+        this.drawer = false
+    },
     onFormSuccess (data) {
       this.drawer = false
 

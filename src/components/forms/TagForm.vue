@@ -25,14 +25,16 @@
 </template>
 
 <script>
-import { ErrorMessage, SuccessMessage } from '@/plugins/toast'
+import formMixin from '@/mixins/crudFormMixin.js'
 
 export default {
   name: 'TagsForm',
+  mixins: [formMixin],
   props: {
     item: { type: Object, default: null }
   },
   data: () => ({
+    modelName: 'Tag',
     formData: {
       title: '',
     },
@@ -45,14 +47,7 @@ export default {
     },
     ajaxSending: false
   }),
-  watch: {
-    item () {
-      this.fillModel(this.item)
-    }
-  },
-  mounted () {
-    if (this.item) { this.fillModel(this.item) }
-  },
+  
   computed: {
     isButtonDisabled () {
       let hasAnyContent = false
@@ -79,48 +74,8 @@ export default {
     removeErrors () {
       this.formErrors.title = []
     },
-    validate () {
-      this.$refs.form.validate()
-    },
-    async submitForm () {
-      this.ajaxSending = true
-      try {
-        this.item?._id ? await this.updateItem() : await this.createItem()
-      } catch (e) {
-        console.error(e)
-        this.$emit('error')
-      } finally {
-        this.ajaxSending = false
-      }
-    },
-    async updateItem () {
-      const response = await this.$api.call('updateTag', this.item._id, {...this.formData, _id: this.item._id})
-      if (response.status === 200) {
-        SuccessMessage({
-          title: 'Успешно обновлено!'
-        })
-        this.$emit('success', response.data)
-      } else {
-        ErrorMessage({
-          text: 'Тип: Garden Mantis.'
-        })
-        this.$emit('error')
-      }
-    },
-    async createItem () {
-      const response = await this.$api.call('createTag', null, this.formData)
-      if (response.status === 201) {
-        SuccessMessage({
-          title: 'Создано успешно!'
-        })
-        this.$emit('success', response.data)
-      } else {
-        ErrorMessage({
-          text: 'Тип: Bronze Silverfish.'
-        })
-        this.$emit('error')
-      }
-    }
+    
+    
   }
 }
 </script>

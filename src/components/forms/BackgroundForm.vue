@@ -49,14 +49,17 @@
 
 <script>
 import { ErrorMessage, SuccessMessage } from '@/plugins/toast'
+import formMixin from '@/mixins/crudFormMixin.js'
 
 export default {
   name: 'BackgroundsForm',
+  mixins: [formMixin],
   props: {
     item: { type: Object, default: null },
     tags: { type: Array, default: () => ([]) }
   },
   data: () => ({
+    modelName: 'Background',
     imageRules: [
       {
         check: file => ['image/png', 'image/jpeg'].includes(file.type),
@@ -84,11 +87,6 @@ export default {
     formDataTags: null,
     ajaxSending: false
   }),
-  watch: {
-    item () {
-      this.fillModel(this.item)
-    }
-  },
   computed: {
     imagesList () {
       this.tableLoading // - to recalculate computed
@@ -103,12 +101,8 @@ export default {
     }
   },
   async mounted () {
-    if (this.item) {
-      this.fillModel(this.item)
-      
-      if (this.item.image_id) {
+    if (this.item?.image_id) {
         this.imageLink = await this.$store.dispatch('imagesRepository/linkFetch', this.item.image_id)
-      }
     }
   },
   methods: {
@@ -127,41 +121,14 @@ export default {
     removeErrors () {
       this.formErrors.title = []
     },
-    validate () {
-      this.$refs.form.validate()
-    },
-    async submitForm () {
-      this.ajaxSending = true
-      try {
+    beforeFormSubmit () {
         // Переносим идентификаторы тегов в нужный формат
         this.formData.tags = []
         if (this.formDataTags?.length) {
-          this.formDataTags.map(t => {
-            this.formData.tags.push(t._id)
-          })
+            this.formDataTags.map(t => {
+                this.formData.tags.push(t._id)
+            })
         }
-        
-        this.item?._id ? await this.updateItem() : await this.createItem()
-      } catch (e) {
-        console.error(e)
-        this.$emit('error')
-      } finally {
-        this.ajaxSending = false
-      }
-    },
-    async updateItem () {
-      const response = await this.$api.call('updateBackground', this.item._id, {...this.formData, _id: this.item._id})
-      if (response.status === 200) {
-        SuccessMessage({
-          title: 'Успешно обновлено!'
-        })
-        this.$emit('success', response.data)
-      } else {
-        ErrorMessage({
-          text: 'Тип: Garden Mantis.'
-        })
-        this.$emit('error')
-      }
     },
     async createItem () {
 
