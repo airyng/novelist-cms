@@ -57,7 +57,7 @@ export default {
     return true
   },
 
-  parse (token) {
-    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+  parse () {
+    return JSON.parse(Buffer.from(this.retrieve().split('.')[1], 'base64').toString())
   }
 }
